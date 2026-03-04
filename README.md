@@ -41,12 +41,54 @@ Pour lancer toutes les expériences et afficher les résultats dans le terminal,
 
 python3 experiments.py
 
-### Détail des Expériences Exécutées :
-* **E.1** : Comparaison des performances (Coût, Nœuds explorés, Temps, Mémoire) de UCS, Greedy et A* sur 3 grilles (Facile, Moyenne, Difficile).
-* **E.2** : Fixation du plan A* et variation du niveau d'incertitude markovienne (epsilon) pour mesurer la chute de la probabilité de réussite.
-* **E.3** : Comparaison de l'expansion de l'espace de recherche entre une heuristique nulle (h=0) et l'heuristique de Manhattan.
-* **E.4** : Test de l'algorithme Weighted A* avec différents poids (W).
+## Résultats des Expériences
 
+Voici les résultats obtenus lors de l'exécution des scénarios de test détaillés dans le projet :
+
+### E.1 : Comparaison des algorithmes (UCS, Greedy, A*)
+Comparaison sur 3 grilles (Facile, Moyenne, Difficile).
+
+| Grille | Algorithme | Coût | Nœuds explorés | Temps (s) | Mémoire (Max OPEN) |
+|---|---|---|---|---|---|
+| **Facile** (Vide) | UCS | 8 | 25 | ~0.00018 | 9 |
+| | Greedy | 8 | 9 | ~0.00006 | 8 |
+| | A* | 8 | 25 | ~0.00016 | 9 |
+| **Moyenne** (Obstacles)| UCS | 8 | 18 | ~0.00006 | 3 |
+| | Greedy | 8 | 9 | ~0.00006 | 4 |
+| | A* | 8 | 16 | ~0.00007 | 3 |
+| **Difficile** (Couloir)| UCS | 15 | 17 | ~0.00007 | 2 |
+| | Greedy | 15 | 16 | ~0.00006 | 2 |
+| | A* | 15 | 16 | ~0.00006 | 2 |
+
+**Observation :** A* garantit l'optimalité tout en explorant moins de nœuds que UCS sur des grilles avec obstacles. Greedy est rapide mais sous-optimal.
+
+### E.2 : Impact de l'incertitude (Markov) sur le plan A*
+Sur la grille moyenne, le chemin optimal A* prévu a un coût de 8 pas. Voici les statistiques sur 1000 simulations de Monte-Carlo en variant le taux d'erreur epsilon.
+
+| Epsilon | Proba Succès | Proba Échec | Temps moyen (pas) |
+|---|---|---|---|
+| 0.0 (Parfait) | 100.0% | 0.0% | 8.0 |
+| 0.1 | 90.0% | 10.0% | 9.0 |
+| 0.2 | 80.5% | 19.5% | 10.0 |
+| 0.3 | 68.0% | 32.0% | 12.0 |
+
+**Observation :** Un plan déterministe parfait devient très vulnérable dans un environnement incertain. À epsilon = 0.3, l'agent échoue dans près d'un tiers des cas.
+
+### E.3 : Comparaison des heuristiques admissibles
+Sur la grille moyenne :
+* **Heuristique Nulle (h=0, UCS)** -> Coût: 8, Nœuds explorés: 18
+* **Heuristique Manhattan (A*)** -> Coût: 8, Nœuds explorés: 16
+
+**Observation :** L'heuristique de Manhattan réduit l'espace de recherche tout en garantissant l'optimalité (admissible et cohérente).
+
+### E.4 : Weighted A* (Compromis vitesse vs optimalité)
+Sur la grille difficile :
+* **Poids W=1.0** : Coût 15, 16 nœuds explorés
+* **Poids W=1.5** : Coût 15, 16 nœuds explorés
+* **Poids W=2.0** : Coût 15, 16 nœuds explorés
+* **Poids W=3.0** : Coût 15, 16 nœuds explorés
+
+**Observation :** En raison de la topologie très contrainte de la grille difficile (couloir unique), il n'y a pas de chemins sous-optimaux alternatifs. Les performances restent donc identiques quel que soit le poids.
 
 ## Auteur
-* **ETTALEBY M'barek** - *SDIA*
+* **ETTALEBY M'barek** - *ENSETM - SDIA*
