@@ -47,9 +47,6 @@ python3 experiments.py
 * **E.3** : Comparaison de l'expansion de l'espace de recherche entre une heuristique nulle (h=0) et l'heuristique de Manhattan.
 * **E.4** : Test de l'algorithme Weighted A* avec différents poids (W).
 
-## Rapport
-
-Un rapport complet détaillant la modélisation mathématique (matrice de transition, équation de Chapman-Kolmogorov, classes de communication) et l'analyse critique des résultats est disponible dans le dossier (ex: rapport.pdf).
 
 ## Auteur
 * **ETTALEBY M'barek** - *SDIA*
